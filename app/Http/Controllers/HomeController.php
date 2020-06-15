@@ -17,15 +17,6 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
-        
-        /**
-         * Service Account demo.
-         */
-         // $sheets = Sheets::spreadsheet(config('sheets.post_spreadsheet_id'))
-
-         //                ->sheet(config('sheets.post_sheet_id'))
-
-         //                ->get();
 
          $sheets = Sheets::spreadsheet('studied-handler-280013')
 
@@ -40,9 +31,9 @@ class HomeController extends Controller
         $personalData = Sheets::collection($header, $sheets);
 
         $personalData = $personalData->reverse()->take(10);
-dd($personalData);
-        return view('welcome')->with(compact('personalData'));
-        //return json(compact('posts'));
+        // dd($personalData);
+        // return view('welcome')->with(compact('personalData'));
+        return json(compact('personalData'));
     }
 
     public function fetchData(){
@@ -53,32 +44,32 @@ dd($personalData);
         return json_encode($arrayList);
     }
 
-    public function uploadRecords(Request $request){
-        $newList = Array();
-        $jsonArray = json_encode($request->all(), true) ;
-        $jsonObject = json_decode($jsonArray, true);
+    // public function uploadRecords(Request $request){
+    //     $newList = Array();
+    //     $jsonArray = json_encode($request->all(), true) ;
+    //     $jsonObject = json_decode($jsonArray, true);
 
 
-        foreach($jsonObject as $key => $value) {
-        // array_push($newList, $value["firstName"]);
+    //     foreach($jsonObject as $key => $value) {
+    //     // array_push($newList, $value["firstName"]);
 
-            $append = [
-            $value["firstName"],
-            $value["lastName"],
-            $value["age"],
-            $value["location"],
-           $value["email"],
-            // now()->toDateTimeString(),
-        ];
-        // return "jhj";
-        array_push($newList, $append);
-        Sheets::spreadsheet(config('sheets.post_spreadsheet_id'))
+    //         $append = [
+    //         $value["firstName"],
+    //         $value["lastName"],
+    //         $value["age"],
+    //         $value["location"],
+    //        $value["email"],
+    //         // now()->toDateTimeString(),
+    //     ];
+    //     // return "jhj";
+    //     array_push($newList, $append);
+    //     Sheets::spreadsheet(config('sheets.post_spreadsheet_id'))
 
-              ->sheetById(config('sheets.post_sheet_id'))
+    //           ->sheetById(config('sheets.post_sheet_id'))
 
-              ->append([$append]);
+    //           ->append([$append]);
           
-        }
-        return $newList;
-    }
+    //     }
+    //     return $newList;
+    // }
 }
